@@ -23,6 +23,7 @@ Possible curve names: cv25519, ed25519, nistp256, nistp384, nistp512,
     brainpoolP256r1, brainpoolP384r1, brainpoolP512r1, secp256k1
 
 '''
+import six
 import subprocess
 from docopt import docopt
 from getpass import getpass
@@ -68,7 +69,7 @@ class Agent(object):
                     data = inquire_cb(key, msg)
                 if data is not None:
                     to_write = [b'D ']
-                    for c in data:
+                    for c in six.iterbytes(data):
                         to_write.append('%{:02x}'.format(c).encode())
                     self._write(b''.join(to_write))
                     self._write(b'END')
